@@ -1,0 +1,1 @@
+dataset/fundus/A/Normal fundus/new_batch7-21080300057-R-MaculaFundus.jpg;0

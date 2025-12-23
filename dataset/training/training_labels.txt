@@ -1,0 +1,1 @@
+dataset/fundus/A/Normal fundus/new_batch4-21062401156miaoyuntang-L-DiscFundus.jpg;0

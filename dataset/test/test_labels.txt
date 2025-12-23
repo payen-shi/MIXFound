@@ -1,0 +1,1 @@
+dataset/fundus/A/Normal fundus/new_batch1-21052200010shijiaqi-R-DiscFundus.jpg;0
