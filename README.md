@@ -72,6 +72,7 @@ Github/
     ├── FLAIR/
     │   └── FLAIR_Feature_Extractor.py
     └── ...
+---
 
 ## ⚙️ Environment Setup
 # 1. Create environment from provided file
