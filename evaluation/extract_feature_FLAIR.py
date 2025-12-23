@@ -1,1 +1,0 @@
-SEE: /home/ps/data/jinjingzhu/VisionFM/FLAIR/feature_extract.py
