@@ -6,8 +6,8 @@ It includes:
 
 - **Feature extraction** scripts for each backbone.
 - **Linear classification decoders** for downstream disease classification.
-- **Multi-model fusion** code (MIXFound) with ROC and calibration analysis.
-- Reproducible **training & evaluation** pipelines with AUC/F1/confusion matrix, and bootstrap confidence intervals.
+- **Mixture of Foundation Models** code (MIXFound) with ROC and calibration analysis.
+- Reproducible **training & evaluation** pipelines with AUC/F1/confusion matrix.
 
 ---
 
@@ -39,7 +39,7 @@ It includes:
 
 - **Flexible classification decoders**
   - Linear heads (`ClsHead`) on frozen features.
-  - Support for multi-class and binary classification.
+  - Support for multi-class classification.
 
 - **Rich evaluation metrics**
   - Accuracy, Precision, Recall, F1
@@ -93,7 +93,7 @@ conda env create -f environment.yml -n visionfm
 conda activate visionfm
 
 # 3. (Optional) Export current environment to requirements.txt
-pip freeze > requirements.txtIf you prefer a pure `pip` workflow, you can inspect `environment.yml` and install the listed packages manually.
+pip freeze > requirements.txt If you prefer a pure `pip` workflow, you can inspect `environment.yml` and install the listed packages manually.
 
 ---
 
@@ -101,14 +101,19 @@ pip freeze > requirements.txtIf you prefer a pure `pip` workflow, you can inspec
 
 By default, the classification scripts expect a fundus dataset organized as:
 
-data/
+dataset/
 └── fundus/
-    ├── training/
-    │   ├── images...              # training images
+    ├── A/.../G/                   # training, evaluation, and test images
+    │   └── Age related macular degeneration (AMD)    
+    │   └── Glaucoma     
+    │   └── High myopia     
+    │   └── Normal fundus     
+└── training/
     │   └── training_labels.txt    # training labels (path;label)
-    ├── test/ or A/…G/             # validation / test images
-    │   └── subtest_labels.txt     # test labels
-    └── ...                        # other splits (A–G) if applicableYou can control the location with the `--data_path` and `--Task` arguments, e.g.:
+└── evaluation/
+    │   └── evaluation_labels.txt    # evaluation labels (path;label)
+└── training/
+    ├── test_labels             # validation / test images
 
 --data_path /path/to/dataset/fundus \
 --Task E  # or A/B/C/... depending on your splitThe **feature extraction** scripts read images from these directories and write `.pickle` feature files under `Final_feature/` or `Final_prediction/`.
@@ -157,7 +162,7 @@ python Classification/VisionFM_based_classifier.py \
     --Task E \
     --epochs 20 \
     --batch_size_per_gpu 512 \
-    --output_dir ./results/visionfm#### RETFound-based classifier
+    --output_dir ./results/visionfm#### VisionFM-based classifier
 
 python Classification/RETFound_based_classifier.py \
     --name retfound_E \
@@ -165,7 +170,7 @@ python Classification/RETFound_based_classifier.py \
     --Task E \
     --epochs 20 \
     --batch_size_per_gpu 512 \
-    --output_dir ./results/retfound#### FLAIR-based classifier
+    --output_dir ./results/retfound#### RETFound-based classifier
 
 python Classification/FLAIR_based_classifier.py \
     --name flair_E \
@@ -173,7 +178,7 @@ python Classification/FLAIR_based_classifier.py \
     --Task E \
     --epochs 20 \
     --batch_size_per_gpu 512 \
-    --output_dir ./results/flair#### CLIP-based classifier (ViT-L/14)
+    --output_dir ./results/flair#### FLAIR-based classifier
 
 python Classification/CLIP_based_classifier.py \
     --name clip_E \
@@ -181,11 +186,11 @@ python Classification/CLIP_based_classifier.py \
     --Task E \
     --epochs 20 \
     --batch_size_per_gpu 512 \
-    --output_dir ./results/clip> **DDP note**: These scripts use `DistributedDataParallel`. When running on multiple GPUs, launch with `torchrun` or `python -m torch.distributed.run` as needed, adjusting `--gpu`, `--local_rank`, and `--dist_url`.
+    --output_dir ./results/clip #### CLIP-based classifier (ViT-L/14)
 
 ---
 
-### 3. Multi‑Model Fusion (MIXFound)
+### 3. Mixture of Foundation Models (MIXFound)
 
 Once you have prediction pickles from multiple backbones (VisionFM, RETFound, FLAIR, CLIP), you can run the fusion script:
 
@@ -238,5 +243,3 @@ Metrics include:
 - **Backbone choice**: run only the classifier scripts you need, or plug in new feature extractors under `Feature_Extraction/`.
 - **Metrics**: extend `Classification/evaluation_funcs.py` or `utils.py` to add custom metrics or logging formats.
 - **Paths**: for public release, replace absolute paths with relative ones (e.g. `./dataset/fundus`, `./weights/…`).
-
----
