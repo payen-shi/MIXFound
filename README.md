@@ -1,6 +1,6 @@
 # MIXFound
 
-This repository provides a complete pipeline for **fundus image classification** based on several powerful visual backbones (VisionFM, RETFound, FLAIR, CLIP) and MIXFound**.  
+This repository provides a complete pipeline for **fundus image classification** based on several powerful visual backbones (VisionFM, RETFound, FLAIR, CLIP) and **MIXFound**.  
 
 It includes:
 
