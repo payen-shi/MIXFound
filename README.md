@@ -44,13 +44,12 @@
   - **Bootstrap 95% CI** for AUC.
   - Confusion matrices and per-class sensitivity/specificity.
 
-- **🚀 Multi-Model Fusion (MIXFound)**
+- **🚀 Mixture of Foundation Models (MIXFound)**
   - Adaptive AUC-based weighting across multiple backbones.
   - Automated generation of ROC comparison plots.
 
 - **⚡ Reproducible & Scalable**
   - Configurable via `argparse` (Tasks A–G, seeds, etc.).
-  - Distributed Data Parallel (DDP) support.
 
 ---
 
@@ -59,8 +58,8 @@
 ```text
 Github/
 ├── environment.yml                # Conda environment specification
-├── MIXFound.py                    # 🚀 Main Script: Multi-model fusion
-├── utils.py                       # Shared utilities (DDP, metrics, logging)
+├── MIXFound.py                    # 🚀 Mixture of Foundation Models
+├── utils.py                       # Shared utilities (metrics, logging)
 ├── dataset/                       # Dataset utilities / wrappers
 │
 ├── Classification/                # 🧠 Linear Probing / Decoders
@@ -84,8 +83,6 @@ Github/
 ---
 
 ## ⚙️ Environment Setup
-
-> ⚠️ **Important Note**: This repository is designed to be executed from the `Github/` root directory. Please ensure you are in the root folder before running any scripts.
 
 We recommend using **conda** for environment management:
 
@@ -118,9 +115,10 @@ dataset/
     │
     ├── training/
     │   └── training_labels.txt    # Format: path;label
-    │   └── test_labels/           # Validation/Test images
     └── evaluation/
-        └── evaluation_labels.txt  # Format: path;label
+    │└── evaluation_labels.txt  # Format: path;label
+    └── test/
+        └── test_labels.txt  # Format: path;label
 
 ```
 
@@ -186,7 +184,7 @@ python Classification/RETFound_based_classifier.py \
 
 *(Scripts for `FLAIR` and `CLIP` follow the same usage pattern.)*
 
-### 3. Multi-Model Fusion (MIXFound)
+### 3. Mixture of Foundation Models (MIXFound)
 
 Once you have prediction pickles from multiple backbones, run the fusion script:
 
@@ -203,20 +201,6 @@ python MIXFound.py \
 2. Computes class-wise AUC for each model.
 3. Derives **AUC-based fusion weights**.
 4. Produces fused predictions and ROC comparison plots.
-
----
-
-## 📊 Evaluation & Outputs
-
-The pipeline generates the following artifacts:
-
-| Output Type | Path Pattern | Description |
-| --- | --- | --- |
-| **Checkpoints** | `results/<name>/checkpoint_*.pth` | Saved model weights. |
-| **Logs** | `results/<name>/log.txt` | Training logs. |
-| **Predictions** | `Final_prediction/*_pred_*.pickle` | Contains `preds`, `labels`, and `img_path`. |
-| **Confusion Matrix** | `class_confusion_matrix/*.png` | Visualized confusion matrices per task/seed. |
-| **ROC Plots** | `classification_ROC/*.png` | Comparative ROC curves (Individual Models vs. MIXFound). |
 
 ---
 
@@ -271,9 +255,9 @@ We gratefully acknowledge the authors of the following foundation models for the
 </details>
 
 * **CLIP**: [OpenAI](https://github.com/openai/CLIP)
-* **RETFound**: [Nature Article](https://www.nature.com/articles/s41586-023-06555-x)
-* **FLAIR**: [Project Link / Paper]
-* **VisionFM**: [Project Link / Paper]
+* **RETFound**: [Nature Article](https://github.com/rmaphoh/RETFound)
+* **FLAIR**: [Medical Image Analysis](https://github.com/jusiro/FLAIR)
+* **VisionFM**: [NEJM AI](https://github.com/ABILab-CUHK/VisionFM)
 
 ---
 
@@ -282,8 +266,8 @@ We gratefully acknowledge the authors of the following foundation models for the
 If you find this project useful for your research, please cite:
 
 ```bibtex
-@article{YourCitation2025,
-  title={MIXFound: A Mixture of Foundation Models...},
+@article{MIXFound,
+  title={ A mixture of ophthalmic foundation models enables mitigation of altitude bias},
   author={...},
   journal={...},
   year={2025}
