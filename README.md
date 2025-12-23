@@ -72,5 +72,41 @@ Github/
     ├── FLAIR/
     │   └── FLAIR_Feature_Extractor.py
     └── ...
-⚙️ Environment Setup
-We recommend using conda:
+
+## ⚙️ Environment Setup
+# 1. Create environment from provided file
+conda env create -f environment.yml -n visionfm
+
+# 2. Activate environment
+conda activate visionfm
+
+# 3. (Optional) Export requirements
+pip freeze > requirements.txt
+
+## 💾 Data Preparation
+
+dataset/
+└── fundus/
+    ├── A/.../G/                   # Task Splits (e.g., Task A, Task E)
+    │   ├── AMD/                   # Class folder (Disease Name)
+    │   ├── Glaucoma/              # Class folder
+    │   ├── High myopia/           # Class folder
+    │   └── Normal fundus/         # Class folder
+    │
+    ├── training/
+    │   └── training_labels.txt    # Format: path;label
+    │   └── test_labels/           # Validation/Test images
+    └── evaluation/
+        └── evaluation_labels.txt  # Format: path;label
+## 🚀 Usage
+
+# 1. Feature Extraction
+
+Extract features to .pickle files before training classifiers.
+
+# RETFound Example:
+python Feature_Extraction/RETFound/RETFound_Feature_Extractor.py \
+    --data_path ./dataset/fundus \
+    --Task E \
+    --output_dir ./Final_feature
+
